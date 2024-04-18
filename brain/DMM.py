@@ -26,6 +26,8 @@ Example (1) : hello can you open chrome for me?
 Example Output (1) : Automation
 Example (2) : who is akshay kumar?
 Example Output (2) : Query
+Example (3) : bye
+Example Output (3) : Query
 """
 
 template_L1 = """#reply only one of them ["Automation", "Query"]
@@ -46,7 +48,9 @@ Example Output (2) : After
 Example (3) : how are you
 Example Output (3) : Before
 Example (4) : do you know quantum computing?
-Example Output (4) : Before"""
+Example Output (4) : Before
+Example (5) : Whats the date today?
+Example Output (5) : After"""
 
 template_L2 = """#reply only one of them ["After", "Before"]
 Input : *{prompt}*
@@ -56,22 +60,34 @@ Output :
 def Mixtral7B(prompt,instructions,temperature=0.1,max_new_token=2,top_p=0.95,repetition_penalty=1.0):
     
     data = {'prompt' : prompt,
-            'instructions' : instructions,
-            'api_key' = API}
+                'instructions' : instructions,
+                'api_key' : API}
     
     response = rq.post(URL, json=data)
     res = response.json()['response']
     return res
 
 def L1(prompt):
-    global = template_L1
-    response:str = Mixtral7B(template_L1=.format(prompt=prompt),
+    global template_L1
+    response:str = Mixtral7B(template_L1.format(prompt=prompt),
                             instructions=instructions_L1)
     return response.strip()
  
 def L2(prompt):  
-    global = template_L2
-    response:str = Mixtral7B(template_L2=.format(prompt=prompt),
+    global template_L2
+    response:str = Mixtral7B(template_L2.format(prompt=prompt),
                             instructions=instructions_L2)
     return response.strip()
-print(L1(input("type : ")))                    
+
+def L1_X_L2(query):
+    L1_response = L1(query)
+    if L1_response=='Query':
+        print("It is a Query")
+        L2_response = L2(query)
+        print(L2_response)
+    
+    else:
+        print("It is an Automation")  
+       
+while True:
+    print(L1_X_L2(input("Enter the Query : ")))
