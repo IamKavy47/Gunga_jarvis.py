@@ -26,8 +26,6 @@ Example (1) : hello can you open chrome for me?
 Example Output (1) : Automation
 Example (2) : who is akshay kumar?
 Example Output (2) : Query
-Example (3) : bye
-Example Output (3) : Query
 """
 
 template_L1 = """#reply only one of them ["Automation", "Query"]
